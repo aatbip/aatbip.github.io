@@ -104,6 +104,13 @@ div.sourceCode {
   font-size: 14px;
 }
 
+div.sourceCode,
+div.sourceCode code,
+div.sourceCode pre,
+div.sourceCode span {
+  font-size: 14px;
+}
+
 .pandoc-content{
   padding-bottom: 2em;
 }
