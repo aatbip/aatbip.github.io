@@ -67,6 +67,19 @@ a {
   }
 }
 
+.hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-bottom: 2em;
+}
+
+.section-title {
+  font-size: 22px;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
 /*PANDOC*/
 .pandoc-main{
   width: 80%;
