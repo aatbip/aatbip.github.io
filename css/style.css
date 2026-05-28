@@ -1,0 +1,36 @@
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #bfbaaa;
+  color: #000000;
+  font-size: 16px;
+  padding: 3em 0px;
+}
+
+.main{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.links {
+  display: flex;
+}
+
+.links a{
+  color: #323d35;
+  font-size: 16px;
+  padding-top: 1.5px;
+  margin: 0px 6px;
+}
+
+.section {
+  padding: 0.5em 0px;
+  max-width: clamp(300px, 60%, 600px);
+}
+
+.section-getintouch p{
+  margin: 2px;
+}
+
+a {
+  color: #000000;
+}
