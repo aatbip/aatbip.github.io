@@ -66,3 +66,12 @@ a {
     width: 100%;
   }
 }
+
+/*PANDOC*/
+
+div.sourceCode {
+  background-color: #a6a2a2;
+  margin: 0 auto;
+  padding: 10px;
+}
+

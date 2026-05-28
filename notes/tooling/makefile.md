@@ -1,4 +1,4 @@
-# A Brief Introduction to Makefile
+# A Recap of Makefile
 
 ## Introduction
 Makefile is a script file that is written to automate compilation and linking of program files, and also to track prerequisites. It works by comparing prerequisites and target with respect to the timestamps in order to run or avoid running the commands listed in the target.
