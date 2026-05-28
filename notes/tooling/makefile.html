@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../css/style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div id="content"></div>
+    </div>
+    <script>
+      fetch('makefile.md')
+        .then(res => res.text())
+        .then(text => {
+          document.getElementById('content').innerHTML = marked.parse(text);
+        });
+    </script>
+  </body>
+</html>

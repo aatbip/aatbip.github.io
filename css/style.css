@@ -1,3 +1,4 @@
+/* HOMEPAGE */
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
   background-color: #bfbaaa;
@@ -34,3 +35,24 @@ body {
 a {
   color: #000000;
 }
+
+/* NOTESPAGE */
+.note-wrapper{
+  width: 80%;
+  margin: 0 auto;
+  padding: 3em 0px;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 5px 0px;
+}
+
+.note p {
+  font-size: 0.8em;
+  color: gray;
+  margin: 0;
+}
+
