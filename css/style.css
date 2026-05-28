@@ -61,9 +61,12 @@ a {
   margin: 0 auto;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 720px) {
   .note-section {
     width: 100%;
+  }
+  .note{
+   flex-wrap: wrap;
   }
 }
 
@@ -100,3 +103,6 @@ div.sourceCode {
   max-width: 750px;
 }
 
+.pandoc-content{
+  padding-bottom: 2em;
+}
