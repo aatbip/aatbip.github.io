@@ -56,3 +56,13 @@ a {
   margin: 0;
 }
 
+.note-section{
+  width: 60%;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .note-section {
+    width: 100%;
+  }
+}
