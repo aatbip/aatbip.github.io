@@ -13,8 +13,7 @@ In the program page sized buffers were allocated. The virtual address of a rando
 of that page where a struct was stored. The `GET_SLABBASE` parameterized macro at line no 11 in the image attached does the trick. Below I will try to explain 
 why does it work and how we can take benefit from how the virtual address space is structured. 
 
-### Note
-This technique only works if the allocated memory is page aligned. `mmap` always returns a page aligned pointer but `malloc` may not. There is 
+*Note:* This technique only works if the allocated memory is page aligned. `mmap` always returns a page aligned pointer but `malloc` may not. There is 
 another glibc function `posix_memalign` which I used in my project to allocate memory with the required alignment. 
 
 The virtual address space provided by the kernel for each process consists of 2 parts which are virtual page number (VPN) and the offset. Assume that we 

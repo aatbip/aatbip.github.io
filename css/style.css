@@ -101,6 +101,7 @@ div.sourceCode {
   padding: 8px 16px;
   overflow: auto;
   max-width: 750px;
+  font-size: 14px;
 }
 
 .pandoc-content{
