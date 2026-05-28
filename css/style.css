@@ -12,6 +12,16 @@ body {
   padding: 3em 0px;
 }
 
+@media only screen and (max-width: 720px) {
+  .main{
+    width: 95%;
+    margin: 0 auto;
+  }
+  .section{
+    max-width: 100% !important;
+  }
+}
+
 .links {
   display: flex;
 }
@@ -62,6 +72,10 @@ a {
 }
 
 @media only screen and (max-width: 720px) {
+  .note-wrapper{
+    width: 95%;
+    margin: 0 auto;
+  }
   .note-section {
     width: 100%;
   }
@@ -107,8 +121,9 @@ div.sourceCode {
 div.sourceCode,
 div.sourceCode code,
 div.sourceCode pre,
-div.sourceCode span {
-  font-size: 14px;
+div.sourceCode span 
+div.sourceCode .co {
+  font-size: 12px;
 }
 
 .pandoc-content{
