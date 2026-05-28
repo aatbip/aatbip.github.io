@@ -4,12 +4,12 @@ body {
   background-color: #1f1f1f;
   color: #bec4be;
   font-size: 16px;
-  padding: 3em 0px;
 }
 
 .main{
   width: 80%;
   margin: 0 auto;
+  padding: 3em 0px;
 }
 
 .links {
@@ -82,7 +82,7 @@ a {
 
 div.sourceCode {
   background-color: #303030;
-  padding: 4px 16px;
+  padding: 8px 16px;
   overflow: auto;
   max-width: 750px;
 }
