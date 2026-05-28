@@ -1,2 +1,3 @@
 %.html: %.md
-	pandoc $< -o $@ --standalone --highlight-style=tango --css=../../css/style.css
+	pandoc $< -o $@ --template=template.html --highlight-style=tango --css=../../css/style.css
+

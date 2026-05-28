@@ -2,16 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>makefile</title>
+  <title>A Recap of Makefile</title>
   <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -77,72 +70,76 @@
   <link rel="stylesheet" href="../../css/style.css" />
 </head>
 <body>
-<h1 id="a-recap-of-makefile">A Recap of Makefile</h1>
-<h2 id="introduction">Introduction</h2>
-<p>Makefile is a script file that is written to automate compilation and linking of program files, and also to track prerequisites. It works by comparing prerequisites and target with respect to the timestamps in order to run or avoid running the commands listed in the target.</p>
-<h2 id="structure-of-makefile-script">Structure of Makefile Script</h2>
-<p>The structure of a Makefile script is as below:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dv">target:</span><span class="dt"> prerequisites</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    command</span></code></pre></div>
-<p>where: - <code>target</code> is either a filename or a general target name - <code>prerequisites</code> are either filename/s or target name/s - <code>command</code> is the combination of compiler arguments and flags. It starts after a tab character. It is also called a <em>recipe</em>.</p>
-<h2 id="working">Working</h2>
-<p>Makefile works by comparing the timestamp of the target with its prerequisites. For example, let’s say we have the following folder structure:</p>
-<pre><code>~/
- build/
-      lib.o
-      test.o
-      out
- tests/
-      test.c   
- lib.c
- lib.h
- Makefile </code></pre>
-<p>A Makefile script to compile and build the above program files could be as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="dv">build/lib.o:</span><span class="dt"> lib.c lib.h</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    gcc -Wall -c lib.c -o build/lib.o</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="dv">build/test.o:</span><span class="dt"> test.c</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    gcc -Wall -c test.c -o build/test.o</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="dv">build/out:</span><span class="dt"> build/test.o build/lib.o</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    gcc -Wall build/lib.o build/test.o -o build/out</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="dv">run:</span><span class="dt"> build/out</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    ./build/out</span></code></pre></div>
-<p><strong>Example 1</strong></p>
-<p>Let’s assume that we have just written to the <code>lib.c</code> and <code>test.c</code> files and we run the command <code>make build/out</code>.</p>
-<p>This command will run the target <code>build/out</code>. At first, make will access the prerequisites of <code>build/out</code> and get to know that they are targets with their own rules. So it will go to the first prerequisite target i.e. <code>build/test.o</code>. It will check the prerequisites of <code>build/test.o</code> which is <code>test.c</code> and compare the timestamps of <code>test.c</code> against <code>build/test.o</code>. Since there are recent changes in <code>test.c</code> resulting in a timestamp difference, make will run the commands of the <code>build/test.o</code> target. Then again it will move to another prerequisite of <code>build/out</code> which is <code>build/lib.o</code> and compare timestamps of <code>build/lib.o</code> and <code>lib.c</code>, which will be different. Make will also run the commands of <code>build/lib.o</code>.</p>
-<p><strong>Example 2</strong></p>
-<p>Let’s assume that this time we are running the command <code>make run</code>.</p>
-<p>At first make will go to the target <code>run</code> then check its prerequisites. The prerequisite <code>build/out</code> is also a target itself. So make will go to <code>build/out</code> target then analyze the prerequisites and compare the timestamps to run the commands. Let’s say this time there are no new changes made to the files. Make will go to the targets of each prerequisite of <code>build/out</code> like in example 1 and check if the timestamps differ. Since there are no changes made, timestamps remain the same, thus make will not run anything, then return to the <code>run</code> target.</p>
-<p>In the <code>run</code> target, <code>run</code> is a target name but it doesn’t exist as a file in the project. Make treats the target <code>run</code> as a phony target. Make treats the target name as a filename unless explicitly mentioned as a phony target. If the target filename doesn’t exist, it is always considered out-of-date. That’s why the command of the <code>run</code> target gets executed all the time.</p>
-<h2 id="phony-target">Phony Target</h2>
-<p>Make treats target names as filenames by default if not mentioned explicitly. If we want a target not to be treated as a filename then we explicitly mention that target as <code>.PHONY</code>.</p>
-<p>In example 2, the <code>run</code> target doesn’t exist as a file in the project. Make treats it as a file target, sees that <code>run</code> doesn’t exist, considers it out-of-date, and therefore always runs the command (<code>./build/out</code>). This is implicit behavior for non-existent file targets.</p>
-<p>If a target exists as a filename but we want make to execute the commands every time even though the prerequisite hasn’t been modified, then we mention that target as <code>.PHONY</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">.PHONY:</span><span class="dt"> clean</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="dv">clean:</span><span class="dt"> </span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    rm -rf build</span></code></pre></div>
-<p>Even though there is a filename named <code>clean</code> in a project, make treats it like the filename doesn’t exist, making sure the <code>clean</code> target always gets to run.</p>
-<h2 id="prerequisite-execution-order">Prerequisite Execution Order</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="dv">main.o:</span><span class="dt"> test.c bump.o</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    commands for main.o</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="dv">bump.o:</span><span class="dt"> extra.c</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    commands for bump.o</span></code></pre></div>
-<p>Make processes prerequisites recursively and (in serial mode) usually left-to-right unless concurrent mode is enabled using available flags.</p>
-<p>For the <code>main.o</code> target: - First checks <code>test.c</code> which is a plain source file and doesn’t exist as a target. Make compares its timestamp against <code>main.o</code>. - Then reaches <code>bump.o</code> and notices it has its own rule. Make recursively resolves <code>bump.o</code> first — goes to the <code>bump.o</code> target, checks the prerequisite <code>extra.c</code> timestamp vs <code>bump.o</code>, and runs the commands of <code>bump.o</code> if needed. - After <code>bump.o</code> is resolved, compares its timestamp against <code>main.o</code>. - Finally, if either <code>test.c</code> or <code>bump.o</code> is newer/missing, runs the recipe of <code>main.o</code>.</p>
-<p>This behaviour of running the prerequisite first if it exists as a target is recursive.</p>
-<h2 id="variables">Variables</h2>
-<p>The above Makefile script can be rewritten to use variables.</p>
-<p>Automatic variable meanings: - <code>$@</code> → target name - <code>$^</code> → all prerequisites - <code>$&lt;</code> → first prerequisite</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="dt">CC </span><span class="ch">=</span><span class="st"> gcc</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="dt">CC_FLAGS </span><span class="ch">=</span><span class="st"> -Wall -c</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="dv">build/lib.o:</span><span class="dt"> lib.c lib.h</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    <span class="ch">${</span><span class="dt">CC</span><span class="ch">}</span> <span class="ch">${</span><span class="dt">CC_FLAGS</span><span class="ch">}</span> <span class="ch">$&lt;</span> -o <span class="ch">$@</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="dv">build/test.o:</span><span class="dt"> test.c</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    <span class="ch">${</span><span class="dt">CC</span><span class="ch">}</span> <span class="ch">${</span><span class="dt">CC_FLAGS</span><span class="ch">}</span> <span class="ch">$^</span> -o <span class="ch">$@</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="dv">build/out:</span><span class="dt"> build/test.o build/lib.o</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>    <span class="ch">${</span><span class="dt">CC</span><span class="ch">}</span> -Wall <span class="ch">$^</span> -o <span class="ch">$@</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="dv">run:</span><span class="dt"> build/out</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    ./build/out</span></code></pre></div>
+  <div class="pandoc-main">
+    <div class="pandoc-content">
+      <h1 id="a-recap-of-makefile">A Recap of Makefile</h1>
+      <h2 id="introduction">Introduction</h2>
+      <p>Makefile is a script file that is written to automate compilation and linking of program files, and also to track prerequisites. It works by comparing prerequisites and target with respect to the timestamps in order to run or avoid running the commands listed in the target.</p>
+      <h2 id="structure-of-makefile-script">Structure of Makefile Script</h2>
+      <p>The structure of a Makefile script is as below:</p>
+      <div class="sourceCode" id="cb1"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dv">target:</span><span class="dt"> prerequisites</span></span>
+      <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    command</span></code></pre></div>
+      <p>where: - <code>target</code> is either a filename or a general target name - <code>prerequisites</code> are either filename/s or target name/s - <code>command</code> is the combination of compiler arguments and flags. It starts after a tab character. It is also called a <em>recipe</em>.</p>
+      <h2 id="working">Working</h2>
+      <p>Makefile works by comparing the timestamp of the target with its prerequisites. For example, let’s say we have the following folder structure:</p>
+      <div class="sourceCode" id="cb2"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>~/</span>
+      <span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a> build/</span>
+      <span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>      lib.o</span>
+      <span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>      test.o</span>
+      <span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>      out</span>
+      <span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> tests/</span>
+      <span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>      test.c   </span>
+      <span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a> lib.c</span>
+      <span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a> lib.h</span>
+      <span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a> Makefile </span></code></pre></div>
+      <p>A Makefile script to compile and build the above program files could be as follows:</p>
+      <div class="sourceCode" id="cb3"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="dv">build/lib.o:</span><span class="dt"> lib.c lib.h</span></span>
+      <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    gcc -Wall -c lib.c -o build/lib.o</span>
+      <span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="dv">build/test.o:</span><span class="dt"> test.c</span></span>
+      <span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    gcc -Wall -c test.c -o build/test.o</span>
+      <span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="dv">build/out:</span><span class="dt"> build/test.o build/lib.o</span></span>
+      <span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    gcc -Wall build/lib.o build/test.o -o build/out</span>
+      <span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="dv">run:</span><span class="dt"> build/out</span></span>
+      <span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    ./build/out</span></code></pre></div>
+      <p><strong>Example 1</strong></p>
+      <p>Let’s assume that we have just written to the <code>lib.c</code> and <code>test.c</code> files and we run the command <code>make build/out</code>.</p>
+      <p>This command will run the target <code>build/out</code>. At first, make will access the prerequisites of <code>build/out</code> and get to know that they are targets with their own rules. So it will go to the first prerequisite target i.e. <code>build/test.o</code>. It will check the prerequisites of <code>build/test.o</code> which is <code>test.c</code> and compare the timestamps of <code>test.c</code> against <code>build/test.o</code>. Since there are recent changes in <code>test.c</code> resulting in a timestamp difference, make will run the commands of the <code>build/test.o</code> target. Then again it will move to another prerequisite of <code>build/out</code> which is <code>build/lib.o</code> and compare timestamps of <code>build/lib.o</code> and <code>lib.c</code>, which will be different. Make will also run the commands of <code>build/lib.o</code>.</p>
+      <p><strong>Example 2</strong></p>
+      <p>Let’s assume that this time we are running the command <code>make run</code>.</p>
+      <p>At first make will go to the target <code>run</code> then check its prerequisites. The prerequisite <code>build/out</code> is also a target itself. So make will go to <code>build/out</code> target then analyze the prerequisites and compare the timestamps to run the commands. Let’s say this time there are no new changes made to the files. Make will go to the targets of each prerequisite of <code>build/out</code> like in example 1 and check if the timestamps differ. Since there are no changes made, timestamps remain the same, thus make will not run anything, then return to the <code>run</code> target.</p>
+      <p>In the <code>run</code> target, <code>run</code> is a target name but it doesn’t exist as a file in the project. Make treats the target <code>run</code> as a phony target. Make treats the target name as a filename unless explicitly mentioned as a phony target. If the target filename doesn’t exist, it is always considered out-of-date. That’s why the command of the <code>run</code> target gets executed all the time.</p>
+      <h2 id="phony-target">Phony Target</h2>
+      <p>Make treats target names as filenames by default if not mentioned explicitly. If we want a target not to be treated as a filename then we explicitly mention that target as <code>.PHONY</code>.</p>
+      <p>In example 2, the <code>run</code> target doesn’t exist as a file in the project. Make treats it as a file target, sees that <code>run</code> doesn’t exist, considers it out-of-date, and therefore always runs the command (<code>./build/out</code>). This is implicit behavior for non-existent file targets.</p>
+      <p>If a target exists as a filename but we want make to execute the commands every time even though the prerequisite hasn’t been modified, then we mention that target as <code>.PHONY</code>.</p>
+      <div class="sourceCode" id="cb4"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">.PHONY:</span><span class="dt"> clean</span></span>
+      <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="dv">clean:</span><span class="dt"> </span></span>
+      <span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    rm -rf build</span></code></pre></div>
+      <p>Even though there is a filename named <code>clean</code> in a project, make treats it like the filename doesn’t exist, making sure the <code>clean</code> target always gets to run.</p>
+      <h2 id="prerequisite-execution-order">Prerequisite Execution Order</h2>
+      <div class="sourceCode" id="cb5"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="dv">main.o:</span><span class="dt"> test.c bump.o</span></span>
+      <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    commands for main.o</span>
+      <span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a></span>
+      <span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="dv">bump.o:</span><span class="dt"> extra.c</span></span>
+      <span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    commands for bump.o</span></code></pre></div>
+      <p>Make processes prerequisites recursively and (in serial mode) usually left-to-right unless concurrent mode is enabled using available flags.</p>
+      <p>For the <code>main.o</code> target: - First checks <code>test.c</code> which is a plain source file and doesn’t exist as a target. Make compares its timestamp against <code>main.o</code>. - Then reaches <code>bump.o</code> and notices it has its own rule. Make recursively resolves <code>bump.o</code> first — goes to the <code>bump.o</code> target, checks the prerequisite <code>extra.c</code> timestamp vs <code>bump.o</code>, and runs the commands of <code>bump.o</code> if needed. - After <code>bump.o</code> is resolved, compares its timestamp against <code>main.o</code>. - Finally, if either <code>test.c</code> or <code>bump.o</code> is newer/missing, runs the recipe of <code>main.o</code>.</p>
+      <p>This behaviour of running the prerequisite first if it exists as a target is recursive.</p>
+      <h2 id="variables">Variables</h2>
+      <p>The above Makefile script can be rewritten to use variables.</p>
+      <p>Automatic variable meanings: - <code>$@</code> → target name - <code>$^</code> → all prerequisites - <code>$&lt;</code> → first prerequisite</p>
+      <div class="sourceCode" id="cb6"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="dt">CC </span><span class="ch">=</span><span class="st"> gcc</span></span>
+      <span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="dt">CC_FLAGS </span><span class="ch">=</span><span class="st"> -Wall -c</span></span>
+      <span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a></span>
+      <span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="dv">build/lib.o:</span><span class="dt"> lib.c lib.h</span></span>
+      <span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    <span class="ch">${</span><span class="dt">CC</span><span class="ch">}</span> <span class="ch">${</span><span class="dt">CC_FLAGS</span><span class="ch">}</span> <span class="ch">$&lt;</span> -o <span class="ch">$@</span></span>
+      <span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="dv">build/test.o:</span><span class="dt"> test.c</span></span>
+      <span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    <span class="ch">${</span><span class="dt">CC</span><span class="ch">}</span> <span class="ch">${</span><span class="dt">CC_FLAGS</span><span class="ch">}</span> <span class="ch">$^</span> -o <span class="ch">$@</span></span>
+      <span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="dv">build/out:</span><span class="dt"> build/test.o build/lib.o</span></span>
+      <span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>    <span class="ch">${</span><span class="dt">CC</span><span class="ch">}</span> -Wall <span class="ch">$^</span> -o <span class="ch">$@</span></span>
+      <span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="dv">run:</span><span class="dt"> build/out</span></span>
+      <span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    ./build/out</span></code></pre></div>
+    </div>
+  </div>
 </body>
 </html>

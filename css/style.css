@@ -1,8 +1,8 @@
 /* HOMEPAGE */
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
-  background-color: #bfbaaa;
-  color: #000000;
+  background-color: #1f1f1f;
+  color: #bec4be;
   font-size: 16px;
   padding: 3em 0px;
 }
@@ -17,7 +17,7 @@ body {
 }
 
 .links a{
-  color: #323d35;
+  color: #bec4be;
   font-size: 16px;
   padding-top: 1.5px;
   margin: 0px 6px;
@@ -33,7 +33,7 @@ body {
 }
 
 a {
-  color: #000000;
+  color: #bec4be;
 }
 
 /* NOTESPAGE */
@@ -68,10 +68,22 @@ a {
 }
 
 /*PANDOC*/
+.pandoc-main{
+  width: 80%;
+  padding: 0px 7px;
+}
+
+@media only screen and (max-width: 600px) {
+  .pandoc-main{
+    width: 100%;
+    padding: 0px 16px;
+  }
+}
 
 div.sourceCode {
-  background-color: #a6a2a2;
-  margin: 0 auto;
-  padding: 10px;
+  background-color: #303030;
+  padding: 4px 16px;
+  overflow: auto;
+  max-width: 750px;
 }
 

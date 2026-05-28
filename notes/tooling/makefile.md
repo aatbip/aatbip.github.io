@@ -1,3 +1,7 @@
+---
+title: A Recap of Makefile
+---
+
 # A Recap of Makefile
 
 ## Introduction
@@ -19,7 +23,7 @@ where:
 ## Working
 Makefile works by comparing the timestamp of the target with its prerequisites. For example, let's say we have the following folder structure:
 
-```
+```makefile
 ~/
  build/
       lib.o
