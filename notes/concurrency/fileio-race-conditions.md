@@ -2,7 +2,7 @@
 title: File IO Race Condition Bugs
 ---
 
-# Exploring common race conditions while using file I/O syscalls in multithreaded programs</a>
+# Exploring common race conditions while using file I/O syscalls in multithreaded programs
 
 ### Introduction
 In this note, I discuss about race conditions caused by using file I/O syscalls in the multithreaded or multiprocess programs and ways to eliminate such
