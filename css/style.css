@@ -124,6 +124,8 @@ div.sourceCode pre,
 div.sourceCode span 
 div.sourceCode .co {
   font-size: 14px;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
 }
 
 .pandoc-content{
