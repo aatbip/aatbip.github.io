@@ -16,6 +16,11 @@ body {
   padding: 3em 0px;
 }
 
+.section {
+  padding: 0.5em 0px;
+  max-width: 600px;
+}
+
 @media only screen and (max-width: 720px) {
   .main{
     width: 95%;
@@ -26,28 +31,11 @@ body {
   }
 }
 
-.links {
-  display: flex;
-}
-
-.links a{
-  color: #bec4be;
-  font-size: 16px;
-  padding-top: 1.5px;
-  margin: 0px 6px;
-}
-
-.section {
-  padding: 0.5em 0px;
-  max-width: clamp(300px, 60%, 600px);
-}
-
-.section-getintouch p{
-  margin: 2px;
-}
 
 a {
   color: #bec4be;
+  color: #bec4be;
+  font-size: 16px;
 }
 
 /* NOTESPAGE and PROJECTPAGE*/
