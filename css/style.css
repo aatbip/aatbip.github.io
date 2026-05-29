@@ -26,9 +26,6 @@ body {
     width: 95%;
     margin: 0 auto;
   }
-  .section{
-    max-width: 100% !important;
-  }
 }
 
 a {

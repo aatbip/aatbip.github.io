@@ -73,9 +73,6 @@
   <div class="pandoc-main">
     <div class="pandoc-content">
       <h1 id="analyzing-signal-delivery-in-relation-to-signal-dispatch-and-handler-function-execution-time">Analyzing signal delivery in relation to signal dispatch and handler function execution time</h1>
-      <blockquote>
-      <p>Ananta Bipal</p>
-      </blockquote>
       <h2 id="introduction">Introduction</h2>
       <p>The programs below analyzes singal delivery behaviour with respect to the signal dispatch methods and handler function execution time. Multiple scenarios are analyzed that are as follows:</p>
       <ul>
@@ -250,7 +247,7 @@
       </code></pre>
       <p>By looking at the output the following conclusion can be made:</p>
       <ul>
-      <li>When the signal handler is short running, all four concurrently dispatched signals are delivered. This is because the handler function completes fast enough between the serialized <code>kill</code> calls that the pending bit gets cleared and reset multiple times allowing all 4 deliveries.</li>
+      <li>When the signal handler is short running, all four concurrently dispatched signals are delivered in some runs. This is because the handler function completes fast enough between the serialized <code>kill</code> calls that the pending bit gets cleared and reset multiple times allowing all 4 deliveries.</li>
       <li>The position of “pending” string literal in the output varies across runs and in some run “pending” is not printed at all which shows that scheduling race between signal delivery and handler function execution.</li>
       <li>Signal delivery count and ordering is non-deterministic across runs. This demonstrates that signal delivery is tied to kernel scheduling decisions which are not under the control of userspace programs.</li>
       </ul>

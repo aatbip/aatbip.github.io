@@ -208,7 +208,7 @@ Enter signal identifier: Received
 
 By looking at the output the following conclusion can be made:
 
-- When the signal handler is short running, all four concurrently dispatched signals are delivered. This is because the handler function completes fast 
+- When the signal handler is short running, all four concurrently dispatched signals are delivered in some runs. This is because the handler function completes fast 
 enough between the serialized `kill` calls that the pending bit gets cleared and reset multiple times allowing all 4 deliveries.
 - The position of "pending" string literal in the output varies across runs and in some run "pending" is not printed at all which shows that scheduling race between
 signal delivery and handler function execution.
