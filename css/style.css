@@ -31,7 +31,6 @@ body {
   }
 }
 
-
 a {
   color: #bec4be;
   color: #bec4be;
@@ -39,54 +38,18 @@ a {
 }
 
 /* NOTESPAGE and PROJECTPAGE*/
-.note-wrapper, .project-wrapper{
-  width: 80%;
-  margin: 0 auto;
-  padding: 3em 0px;
-}
-
 .note {
   display: flex;
   align-items: center;
   gap: 1em;
   padding: 5px 0px;
-}
-
-.project {
-  display: flex;
-  padding: 5px 0px;
-  flex-direction: column;
+   flex-wrap: wrap;
 }
 
 .note p {
   font-size: 0.8em;
   color: gray;
   margin: 0;
-}
-
-.note-section{
-  width: 60%;
-  margin: 0 auto;
-}
-
-@media only screen and (max-width: 720px) {
-  .note-wrapper, .project-wrapper{
-    width: 95%;
-    margin: 0 auto;
-  }
-  .note-section {
-    width: 100%;
-  }
-  .note{
-   flex-wrap: wrap;
-  }
-}
-
-.hashtags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em;
-  margin-bottom: 2em;
 }
 
 .section-title {
