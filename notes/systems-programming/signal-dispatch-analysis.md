@@ -4,6 +4,13 @@ title: Signals
 
 # Analyzing signal delivery in relation to signal dispatch and handler function execution time 
 
+Table of Contents
+
+1. [Introduction](#introduction)
+2. [Parallel signal dispatch using multiple threads](#parallel-signal-dispatch-using-multiple-threads)
+3. [Signal delivery while handler function is still running and `SA_NODEFER` flag](#signal-delivery-while-handler-function-is-still-running-and-sa_nodefer-flag)
+4. [Conclusion](#conclusion)
+
 ## Introduction
 The programs below analyzes singal delivery behaviour with respect to the signal dispatch methods and handler function execution time.
 Multiple scenarios are analyzed that are as follows: 

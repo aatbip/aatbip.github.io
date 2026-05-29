@@ -73,6 +73,13 @@
   <div class="pandoc-main">
     <div class="pandoc-content">
       <h1 id="analyzing-signal-delivery-in-relation-to-signal-dispatch-and-handler-function-execution-time">Analyzing signal delivery in relation to signal dispatch and handler function execution time</h1>
+      <p>Table of Contents</p>
+      <ol type="1">
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#parallel-signal-dispatch-using-multiple-threads">Parallel signal dispatch using multiple threads</a></li>
+      <li><a href="#signal-delivery-while-handler-function-is-still-running-and-sa_nodefer-flag">Signal delivery while handler function is still running and <code>SA_NODEFER</code> flag</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+      </ol>
       <h2 id="introduction">Introduction</h2>
       <p>The programs below analyzes singal delivery behaviour with respect to the signal dispatch methods and handler function execution time. Multiple scenarios are analyzed that are as follows:</p>
       <ul>

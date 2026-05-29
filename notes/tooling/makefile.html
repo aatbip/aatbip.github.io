@@ -73,6 +73,17 @@
   <div class="pandoc-main">
     <div class="pandoc-content">
       <h1 id="a-recap-of-makefile">A Recap of Makefile</h1>
+      <p>Table of contents</p>
+      <ol type="1">
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#structure-of-makefile-script">Structure of Makefile Script</a></li>
+      <li><a href="#working">Working</a></li>
+      <li><a href="#example-1">Example 1</a></li>
+      <li><a href="#example-2">Example 2</a></li>
+      <li><a href="#phony-target">Phony Target</a></li>
+      <li><a href="#prerequisite-execution-order">Prerequisite Execution Order</a></li>
+      <li><a href="#variables">Variables</a></li>
+      </ol>
       <h2 id="introduction">Introduction</h2>
       <p>Makefile is a script file that is written to automate compilation and linking of program files, and also to track prerequisites. It works by comparing prerequisites and target with respect to the timestamps in order to run or avoid running the commands listed in the target.</p>
       <h2 id="structure-of-makefile-script">Structure of Makefile Script</h2>
@@ -101,10 +112,10 @@
       <span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    gcc -Wall build/lib.o build/test.o -o build/out</span>
       <span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="dv">run:</span><span class="dt"> build/out</span></span>
       <span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    ./build/out</span></code></pre></div>
-      <p><strong>Example 1</strong></p>
+      <h3 id="example-1">Example 1</h3>
       <p>Let’s assume that we have just written to the <code>lib.c</code> and <code>test.c</code> files and we run the command <code>make build/out</code>.</p>
       <p>This command will run the target <code>build/out</code>. At first, make will access the prerequisites of <code>build/out</code> and get to know that they are targets with their own rules. So it will go to the first prerequisite target i.e. <code>build/test.o</code>. It will check the prerequisites of <code>build/test.o</code> which is <code>test.c</code> and compare the timestamps of <code>test.c</code> against <code>build/test.o</code>. Since there are recent changes in <code>test.c</code> resulting in a timestamp difference, make will run the commands of the <code>build/test.o</code> target. Then again it will move to another prerequisite of <code>build/out</code> which is <code>build/lib.o</code> and compare timestamps of <code>build/lib.o</code> and <code>lib.c</code>, which will be different. Make will also run the commands of <code>build/lib.o</code>.</p>
-      <p><strong>Example 2</strong></p>
+      <h3 id="example-2">Example 2</h3>
       <p>Let’s assume that this time we are running the command <code>make run</code>.</p>
       <p>At first make will go to the target <code>run</code> then check its prerequisites. The prerequisite <code>build/out</code> is also a target itself. So make will go to <code>build/out</code> target then analyze the prerequisites and compare the timestamps to run the commands. Let’s say this time there are no new changes made to the files. Make will go to the targets of each prerequisite of <code>build/out</code> like in example 1 and check if the timestamps differ. Since there are no changes made, timestamps remain the same, thus make will not run anything, then return to the <code>run</code> target.</p>
       <p>In the <code>run</code> target, <code>run</code> is a target name but it doesn’t exist as a file in the project. Make treats the target <code>run</code> as a phony target. Make treats the target name as a filename unless explicitly mentioned as a phony target. If the target filename doesn’t exist, it is always considered out-of-date. That’s why the command of the <code>run</code> target gets executed all the time.</p>

@@ -4,6 +4,17 @@ title: A Recap of Makefile
 
 # A Recap of Makefile
 
+Table of contents
+
+1. [Introduction](#introduction)
+2. [Structure of Makefile Script](#structure-of-makefile-script)
+3. [Working](#working)
+4. [Example 1](#example-1)
+5. [Example 2](#example-2)
+6. [Phony Target](#phony-target)
+7. [Prerequisite Execution Order](#prerequisite-execution-order)
+8. [Variables](#variables)
+
 ## Introduction
 Makefile is a script file that is written to automate compilation and linking of program files, and also to track prerequisites. It works by comparing prerequisites and target with respect to the timestamps in order to run or avoid running the commands listed in the target.
 
@@ -49,13 +60,13 @@ run: build/out
     ./build/out
 ```
 
-**Example 1**
+### Example 1
 
 Let's assume that we have just written to the `lib.c` and `test.c` files and we run the command `make build/out`.
 
 This command will run the target `build/out`. At first, make will access the prerequisites of `build/out` and get to know that they are targets with their own rules. So it will go to the first prerequisite target i.e. `build/test.o`. It will check the prerequisites of `build/test.o` which is `test.c` and compare the timestamps of `test.c` against `build/test.o`. Since there are recent changes in `test.c` resulting in a timestamp difference, make will run the commands of the `build/test.o` target. Then again it will move to another prerequisite of `build/out` which is `build/lib.o` and compare timestamps of `build/lib.o` and `lib.c`, which will be different. Make will also run the commands of `build/lib.o`.
 
-**Example 2**
+### Example 2
 
 Let's assume that this time we are running the command `make run`.
 
