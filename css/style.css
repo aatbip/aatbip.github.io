@@ -30,7 +30,6 @@ body {
 
 a {
   color: #bec4be;
-  color: #bec4be;
   font-size: 16px;
 }
 
@@ -40,12 +39,12 @@ a {
   align-items: center;
   gap: 1em;
   padding: 5px 0px;
-   flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .note p {
   font-size: 0.8em;
-  color: gray;
+  color: #a19d9d;
   margin: 0;
 }
 
@@ -53,6 +52,11 @@ a {
   font-size: 22px;
   margin-top: 2em;
   margin-bottom: 0.5em;
+}
+
+.note a, .project a{
+  text-decoration: none;
+  color: #96c96e;
 }
 
 /*PANDOC*/
